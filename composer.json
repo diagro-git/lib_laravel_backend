@@ -1,0 +1,46 @@
+{
+    "name": "diagro/backend",
+    "description": "Laravel package for backend applications for Diagro",
+    "type": "library",
+    "version": "1.0.24",
+    "authors": [
+        {
+            "name": "Stijn Leenknegt",
+            "email": "stijn@diagro.be"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/diagro-git/lib_laravel_token.git"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "laravel/framework":"v8.67.0",
+        "diagro/token": "^1.0|master",
+        "guzzlehttp/guzzle": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Diagro\\Backend\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Diagro\\Backend\\DiagroServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "github-oauth": {
+            "github.com": "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"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
