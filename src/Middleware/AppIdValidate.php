@@ -26,7 +26,7 @@ class AppIdValidate
     {
         abort_if(! $request->hasHeader('X-APP-ID'), 400, 'Missing header X-APP-ID');
 
-        $url = config('diagro.diagro_service_uri') . '/validate/app';
+        $url = config('diagro.service_auth_uri') . '/validate/app';
         $response = Http::withHeaders([
             'X-APP-ID' => $request->header('X-APP-ID'),
             'Accept' => 'application/json'

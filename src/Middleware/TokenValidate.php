@@ -26,7 +26,7 @@ class TokenValidate
     {
         abort_if(($request->bearerToken() == null), 400, 'Authorization token missing!');
 
-        $url = config('diagro.diagro_service_uri') . '/validate/token';
+        $url = config('diagro.service_auth_uri') . '/validate/token';
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $request->bearerToken(),
             'X-APP-ID' => $request->header('X-APP-ID'),
