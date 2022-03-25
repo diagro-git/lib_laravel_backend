@@ -21,6 +21,10 @@ Deze bibliotheek wordt gebruikt als basis voor alle backends geprogrammeerd in L
 
 ## Changelog
 
+### V1.2
+
+* **Feature**: DiagroResource class
+
 ### V1.1
 
 * **Update**: upgrade naar php8.1 en laravel 9.0
