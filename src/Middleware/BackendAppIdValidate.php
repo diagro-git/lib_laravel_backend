@@ -5,7 +5,6 @@ use Closure;
 use Diagro\Token\BackendApplicationToken;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Checks if the X-BACKEND-TOKEN is precense and if it decodes.
@@ -40,7 +39,7 @@ class BackendAppIdValidate
         return $next($request);
     }
 
-    public function terminate(Request $request, Response $response)
+    public function terminate($request, $response)
     {
         unset($request['has-backend-token']);
     }
