@@ -1,6 +1,7 @@
 <?php
 namespace Diagro\Backend;
 
+use Diagro\Backend\Console\Commands\BackendTokenGenerator;
 use Diagro\Backend\Middleware\AppIdValidate;
 use Diagro\Backend\Middleware\AuthorizedApplication;
 use Diagro\Backend\Middleware\BackendAppIdValidate;
@@ -93,6 +94,13 @@ class DiagroServiceProvider extends ServiceProvider
         //always use https in production, ALWAYS! It's the future
         if(app()->environment('production')) {
             URL::forceScheme('https');
+        }
+
+        //commands
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                BackendTokenGenerator::class,
+            ]);
         }
     }
 

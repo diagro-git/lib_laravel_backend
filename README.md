@@ -21,6 +21,10 @@ Deze bibliotheek wordt gebruikt als basis voor alle backends geprogrammeerd in L
 
 ## Changelog
 
+### V1.4
+
+* **Feature**: Command diagro:backend-token. Maakt een backend token en schrijft deze weg in de .env file
+
 ### V1.3
 
 * **Feature**: X-BACKEND-TOKEN validatie voor interne incoming backend calls.
