@@ -3,6 +3,7 @@ namespace Diagro\Backend;
 
 use Diagro\Backend\Middleware\AppIdValidate;
 use Diagro\Backend\Middleware\AuthorizedApplication;
+use Diagro\Backend\Middleware\BackendAppIdValidate;
 use Diagro\Backend\Middleware\TokenValidate;
 use Diagro\Token\ApplicationAuthenticationToken;
 use Diagro\Token\Auth\TokenProvider;
@@ -71,11 +72,13 @@ class DiagroServiceProvider extends ServiceProvider
         //middleware
         /** @var Router $router */
         $router = $this->app->make(Router::class);
+        $router->pushMiddlewareToGroup('api', BackendAppIdValidate::class);
         $router->pushMiddlewareToGroup('api', AppIdValidate::class);
         $router->pushMiddlewareToGroup('api', TokenValidate::class);
         $router->pushMiddlewareToGroup('api', AuthorizedApplication::class);
         $kernel->prependToMiddlewarePriority(TokenValidate::class);
         $kernel->prependToMiddlewarePriority(AppIdValidate::class);
+        $kernel->prependToMiddlewarePriority(BackendAppIdValidate::class);
 
         //drop invalid keys
         Validator::excludeUnvalidatedArrayKeys();

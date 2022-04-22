@@ -21,6 +21,10 @@ Deze bibliotheek wordt gebruikt als basis voor alle backends geprogrammeerd in L
 
 ## Changelog
 
+### V1.3
+
+* **Feature**: X-BACKEND-TOKEN validatie voor interne incoming backend calls.
+
 ### V1.2
 
 * **Feature**: DiagroResource class
