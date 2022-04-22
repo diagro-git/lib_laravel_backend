@@ -21,6 +21,10 @@ Deze bibliotheek wordt gebruikt als basis voor alle backends geprogrammeerd in L
 
 ## Changelog
 
+### V1.5
+
+* **Feature**: Gebruik van $this->group('name', 'value') in JsonResource's.
+
 ### V1.4
 
 * **Feature**: Command diagro:backend-token. Maakt een backend token en schrijft deze weg in de .env file
