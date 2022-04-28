@@ -36,6 +36,8 @@ class DeleteResourceCache implements ShouldQueue
         $cache = Cache::tags([$tag]);
         $entries = $cache->get('tk'); //tags and keys
 
+        if(empty($entries) || ! is_array($entries)) return;
+
         if($key == '*') {
             foreach($entries as $tags_keys) {
                 if(is_array($tags_keys)) {
