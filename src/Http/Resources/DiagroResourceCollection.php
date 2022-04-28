@@ -50,11 +50,12 @@ abstract class DiagroResourceCollection extends ResourceCollection
 
         $resource = $this->resource;
         if($resource instanceof Collection) {
+            $class = str_replace('Collection', 'Resource', static::class);
             foreach($resource as $item) {
-                if($item instanceof Model) {
-                    $dbname = $item->getConnection()->getDatabaseName();
-                    $table = $item->getTable();
-                    $key = $item->getKey();
+                if($item instanceof $class && $item->resource instanceof Model) {
+                    $dbname = $item->resource->getConnection()->getDatabaseName();
+                    $table = $item->resource->getTable();
+                    $key = $item->resource->getKey();
                     if (is_array($key)) {
                         $key = implode('.', $key);
                     }
