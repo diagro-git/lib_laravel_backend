@@ -3,6 +3,7 @@ namespace Diagro\Backend\Http\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Collection;
 
 abstract class DiagroResourceCollection extends ResourceCollection
 {
@@ -48,14 +49,18 @@ abstract class DiagroResourceCollection extends ResourceCollection
         }
 
         $resource = $this->resource;
-        if($resource instanceof Model) {
-            $dbname = $resource->getConnection()->getDatabaseName();
-            $table = $resource->getTable();
-            $key = $resource->getKey();
-            if(is_array($key)) {
-                $key = implode('.', $key);
+        if($resource instanceof Collection) {
+            foreach($resource as $item) {
+                if($item instanceof Model) {
+                    $dbname = $item->getConnection()->getDatabaseName();
+                    $table = $item->getTable();
+                    $key = $item->getKey();
+                    if (is_array($key)) {
+                        $key = implode('.', $key);
+                    }
+                    CachedResource::addUsedResource($dbname, $table, $key);
+                }
             }
-            CachedResource::addUsedResource($dbname, $table, $key);
         }
 
         return $data;
