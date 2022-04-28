@@ -25,7 +25,7 @@ class CachedResource
      */
     public static function cacheResources()
     {
-        if(empty($tags) || empty($key)) {
+        if(empty(self::$tags) || empty(self::$key)) {
             throw new LogicException("To cache resources you have to give me some tags and a key!");
         }
 
@@ -34,7 +34,10 @@ class CachedResource
 
     public static function addUsedResource(string $dbname, string $tablename, string $key)
     {
-        self::$usedResources[] = self::resourceToCacheResourceKey($dbname, $tablename, $key);
+        $resourceKey = self::resourceToCacheResourceKey($dbname, $tablename, $key);
+        if(! in_array($resourceKey, self::$usedResources)) {
+            self::$usedResources[] = self::resourceToCacheResourceKey($dbname, $tablename, $key);
+        }
     }
 
     public static function getUsedResources(): array

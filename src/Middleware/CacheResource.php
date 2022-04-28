@@ -45,7 +45,7 @@ class CacheResource
     public function terminate($request, $response)
     {
         if($request->hasHeader('x-diagro-cache')) {
-            CacheResources::dispatch(CachedResource::$tags, CachedResource::$key, CachedResource::getUsedResources());
+            CachedResource::cacheResources();
         }
     }
 
