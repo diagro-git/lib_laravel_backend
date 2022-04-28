@@ -5,6 +5,7 @@ use Diagro\Backend\Console\Commands\BackendTokenGenerator;
 use Diagro\Backend\Middleware\AppIdValidate;
 use Diagro\Backend\Middleware\AuthorizedApplication;
 use Diagro\Backend\Middleware\BackendAppIdValidate;
+use Diagro\Backend\Middleware\CacheResource;
 use Diagro\Backend\Middleware\TokenValidate;
 use Diagro\Token\ApplicationAuthenticationToken;
 use Diagro\Token\Auth\TokenProvider;
@@ -77,6 +78,7 @@ class DiagroServiceProvider extends ServiceProvider
         $router->pushMiddlewareToGroup('api', AppIdValidate::class);
         $router->pushMiddlewareToGroup('api', TokenValidate::class);
         $router->pushMiddlewareToGroup('api', AuthorizedApplication::class);
+        $router->pushMiddlewareToGroup('api', CacheResource::class);
         $kernel->prependToMiddlewarePriority(TokenValidate::class);
         $kernel->prependToMiddlewarePriority(AppIdValidate::class);
         $kernel->prependToMiddlewarePriority(BackendAppIdValidate::class);
@@ -102,6 +104,9 @@ class DiagroServiceProvider extends ServiceProvider
                 BackendTokenGenerator::class,
             ]);
         }
+
+        //routes
+        $this->loadRoutesFrom(__DIR__ . '/../routes/cache.php');
     }
 
 

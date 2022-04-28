@@ -15,10 +15,8 @@ trait DiagroCompany
 {
 
 
-    protected static function booted()
+    protected static function bootDiagroCompany()
     {
-        parent::booted();
-
         static::addGlobalScope('company', function(Builder $builder) {
             $builder->where('company_id', '=', auth()->user()?->company()->id());
         });

@@ -21,6 +21,10 @@ Deze bibliotheek wordt gebruikt als basis voor alle backends geprogrammeerd in L
 
 ## Changelog
 
+### V1.6
+
+* **Feature**: Cache van resources, deleten ook en endpoint /diagro/cache DELETE
+
 ### V1.5
 
 * **Feature**: Gebruik van $this->group('name', 'value') in JsonResource's.
