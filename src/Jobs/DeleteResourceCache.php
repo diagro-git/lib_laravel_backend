@@ -94,9 +94,4 @@ class DeleteResourceCache implements ShouldQueue
         return isset($tag_key['tags']) && isset($tag_key['key']);
     }
 
-    private function deleteCache(array $tags, string $key)
-    {
-        Cache::tags($tags)->forget($key);
-    }
-
 }

@@ -3,6 +3,7 @@ namespace Diagro\Backend\Middleware;
 
 use Closure;
 use Diagro\Backend\Http\Resources\CachedResource;
+use Diagro\Backend\Jobs\CacheResources;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -32,6 +33,20 @@ class CacheResource
         }
 
         return $next($request);
+    }
+
+    /**
+     * Handle tasks after the response has been sent to the browser.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response  $response
+     * @return void
+     */
+    public function terminate($request, $response)
+    {
+        if($request->hasHeader('x-diagro-cache')) {
+            CacheResources::dispatch(CachedResource::$tags, CachedResource::$key, CachedResource::getUsedResources());
+        }
     }
 
 
