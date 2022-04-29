@@ -1,7 +1,6 @@
 <?php
 namespace Diagro\Backend\Http\Resources;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
 /**
@@ -34,7 +33,7 @@ trait GroupedProperties
     }
 
 
-    public function withResponse($request, JsonResponse $response)
+    public function withResponse($request, $response)
     {
         $wrap = static::$wrap;
         $isCollection = str_ends_with(static::class, 'Collection');
