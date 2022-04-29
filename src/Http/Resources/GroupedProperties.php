@@ -2,6 +2,7 @@
 namespace Diagro\Backend\Http\Resources;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * Als je een property hebt in je API Resource dat een API fetch moet doen naar de backend,
@@ -44,7 +45,7 @@ trait GroupedProperties
         }
 
         foreach($grouped as $property => $values) {
-            $methodName = str($property)->camel();
+            $methodName = Str::camel($property);
             if(method_exists($this, $methodName)) {
                 /** @var GroupedDefinition $definition */
                 $definition = $this->{$methodName}();
