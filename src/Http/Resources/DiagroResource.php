@@ -56,12 +56,14 @@ abstract class DiagroResource extends JsonResource
             $dbname = $resource->getConnection()->getDatabaseName();
             $table = $resource->getTable();
             $key = $resource->getKey();
-            if(is_array($key)) {
-                $key = implode('.', $key);
-            } elseif(is_int($key)) {
-                $key = (string) $key;
+            if(! empty($dbname) && ! empty($table) && ! empty($key)) {
+                if (is_array($key)) {
+                    $key = implode('.', $key);
+                } elseif (! is_string($key)) {
+                    $key = (string)$key;
+                }
+                CachedResource::addUsedResource($dbname, $table, $key);
             }
-            CachedResource::addUsedResource($dbname, $table, $key);
         }
 
         return $data;
