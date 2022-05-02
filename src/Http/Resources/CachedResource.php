@@ -29,7 +29,7 @@ class CachedResource
             throw new LogicException("To cache resources you have to give me some tags and a key!");
         }
 
-        CacheResources::dispatchAfterResponse(self::$tags, self::$key, self::getUsedResources());
+        CacheResources::dispatch(self::$tags, self::$key, self::getUsedResources());
     }
 
     public static function addUsedResource(string $dbname, string $tablename, string $key)

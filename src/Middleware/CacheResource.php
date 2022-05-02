@@ -35,7 +35,6 @@ class CacheResource
         $response = $next($request);
 
         if($request->hasHeader('x-diagro-cache')) {
-            logger()->debug($request->header('x-diagro-cache'));
             CachedResource::cacheResources();
         }
 
