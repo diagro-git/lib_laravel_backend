@@ -20,7 +20,6 @@ class CacheResources implements ShouldQueue
         private array $usedResources
     )
     {
-        $this->onQueue('cache');
     }
 
     public function handle()
