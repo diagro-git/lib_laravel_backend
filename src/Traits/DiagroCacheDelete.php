@@ -22,7 +22,7 @@ trait DiagroCacheDelete
         static::created(function(Model $model) {
             $dbname = $model->getConnection()->getDatabaseName();
             $table = $model->getTable();
-            DeleteResourceCache::dispatchAfterResponse(self::resourceToCacheResourceKey($dbname, $table, '*'));
+            DeleteResourceCache::dispatch(self::resourceToCacheResourceKey($dbname, $table, '*'));
         });
 
         static::updated(function(Model $model) {
@@ -34,7 +34,7 @@ trait DiagroCacheDelete
             } elseif (! is_string($key)) {
                 $key = (string)$key;
             }
-            DeleteResourceCache::dispatchAfterResponse(self::resourceToCacheResourceKey($dbname, $table, $key));
+            DeleteResourceCache::dispatch(self::resourceToCacheResourceKey($dbname, $table, $key));
         });
 
         static::deleted(function(Model $model) {
@@ -46,7 +46,7 @@ trait DiagroCacheDelete
             } elseif (! is_string($key)) {
                 $key = (string)$key;
             }
-            DeleteResourceCache::dispatchAfterResponse(self::resourceToCacheResourceKey($dbname, $table, $key));
+            DeleteResourceCache::dispatch(self::resourceToCacheResourceKey($dbname, $table, $key));
         });
 
         if(in_array(SoftDeletes::class, class_uses_recursive(static::class))) {
@@ -59,7 +59,7 @@ trait DiagroCacheDelete
                 } elseif (!is_string($key)) {
                     $key = (string)$key;
                 }
-                DeleteResourceCache::dispatchAfterResponse(self::resourceToCacheResourceKey($dbname, $table, $key));
+                DeleteResourceCache::dispatch(self::resourceToCacheResourceKey($dbname, $table, $key));
             });
         }
     }
