@@ -12,7 +12,7 @@ class CacheDeleted implements ShouldBroadcast
 
 
 
-    public function __construct(private string $key, public array $tags, $user_id)
+    public function __construct(public string $key, public array $tags, $user_id)
     {
         $this->user_id = $user_id;
     }
