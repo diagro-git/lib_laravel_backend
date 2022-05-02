@@ -20,14 +20,12 @@ trait DiagroCacheDelete
     protected static function bootDiagroCacheDelete()
     {
         static::created(function(Model $model) {
-            logger()->debug("created called for " . get_class($model));
             $dbname = $model->getConnection()->getDatabaseName();
             $table = $model->getTable();
             DeleteResourceCache::dispatchAfterResponse(self::resourceToCacheResourceKey($dbname, $table, '*'));
         });
 
         static::updated(function(Model $model) {
-            logger()->debug("updated called for " . get_class($model));
             $dbname = $model->getConnection()->getDatabaseName();
             $table = $model->getTable();
             $key = $model->getKey();
@@ -40,7 +38,6 @@ trait DiagroCacheDelete
         });
 
         static::deleted(function(Model $model) {
-            logger()->debug("deleted called for " . get_class($model));
             $dbname = $model->getConnection()->getDatabaseName();
             $table = $model->getTable();
             $key = $model->getKey();
@@ -54,7 +51,6 @@ trait DiagroCacheDelete
 
         if(in_array(SoftDeletes::class, class_uses_recursive(static::class))) {
             static::restored(function (Model $model) {
-                logger()->debug("restored called for " . get_class($model));
                 $dbname = $model->getConnection()->getDatabaseName();
                 $table = $model->getTable();
                 $key = $model->getKey();

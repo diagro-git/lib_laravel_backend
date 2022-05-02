@@ -21,7 +21,6 @@ class DeleteResourceCache implements ShouldQueue
         private string $resource
     )
     {
-        $this->onQueue('cache');
     }
 
     public function middleware(): array
@@ -85,7 +84,7 @@ class DeleteResourceCache implements ShouldQueue
 
         //send event if company and user is not null.
         if($company_id != null && $user_id != null) {
-            event(new CacheDeleted($key, $tags, $user_id, $company_id));
+            event(new CacheDeleted($key, $tags, $user_id));
         }
     }
 

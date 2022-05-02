@@ -2,7 +2,7 @@
     "name": "diagro/lib_laravel_backend",
     "description": "Library for backends written in Laravel",
     "type": "library",
-    "version": "1.9.7",
+    "version": "1.9.8",
     "authors": [
         {
             "name": "Stijn Leenknegt",
@@ -13,6 +13,10 @@
         {
             "type": "git",
             "url": "https://github.com/diagro-git/lib_laravel_token.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/diagro-git/lib_laravel_event.git"
         }
     ],
     "require": {
@@ -20,7 +24,7 @@
         "laravel/framework":"^9.0",
         "diagro/lib_laravel_token": "^1.0",
         "guzzlehttp/guzzle": "^7.4",
-        "pusher/pusher-php-server": "^7.0"
+        "diagro/lib_laravel_event": "^1.0"
     },
     "autoload": {
         "psr-4": {
