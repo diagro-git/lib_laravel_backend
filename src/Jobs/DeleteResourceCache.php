@@ -69,21 +69,18 @@ class DeleteResourceCache implements ShouldQueue
 
     private function event(array $tags_key)
     {
-        $company_id = $user_id = null;
+        $user_id = null;
         $tags = $tags_key['tags'];
         $key = $tags_key['key'];
 
         foreach($tags as $tag) {
-            if(str_starts_with($tag, 'company_')) {
-                $company_id = Arr::last(explode('_', $tag));
-            }
             if(str_starts_with($tag, 'user_')) {
                 $user_id = Arr::last(explode('_', $tag));
             }
         }
 
         //send event if company and user is not null.
-        if($company_id != null && $user_id != null) {
+        if($user_id != null) {
             event(new CacheDeleted($key, $tags, $user_id));
         }
     }

@@ -29,7 +29,7 @@ class CacheResources implements ShouldQueue
         foreach($this->usedResources as $usedResource) {
             $key = self::resourceKey($usedResource);
             $tags = [self::resourceTag($usedResource)];
-            $cached = Cache::tags($tags)->get($key);
+            $cached = Cache::tags($tags)->get('tk');
 
             if(empty($cached)) {
                 $cached = [$key => [$value]];
