@@ -17,6 +17,9 @@ class DeleteResourceCache implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, CacheResourceHelpers;
 
 
+    private array $event = [];
+
+
     public function __construct(
         private string $resource
     )
@@ -55,6 +58,8 @@ class DeleteResourceCache implements ShouldQueue
             unset($entries[$key]);
             $cache->put('tk', $entries);
         }
+
+        $this->sendEvents();
     }
 
     private function handleTagsKeys(array $tags_keys)
@@ -81,7 +86,17 @@ class DeleteResourceCache implements ShouldQueue
 
         //send event if company and user is not null.
         if($user_id != null) {
-            event(new CacheDeleted($key, $tags, $user_id));
+            if(! isset($this->event[$user_id])) {
+                $this->event[$user_id] = [];
+            }
+            $this->event[$user_id][] = $tags_key;
+        }
+    }
+
+    private function sendEvents()
+    {
+        foreach($this->event as $userId => $keys_tags) {
+            event(new CacheDeleted($keys_tags, $userId));
         }
     }
 
