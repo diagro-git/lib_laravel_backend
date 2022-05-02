@@ -3,6 +3,8 @@ namespace Diagro\Backend\Traits;
 
 use Diagro\Backend\Jobs\DeleteResourceCache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 /**
  * When a model is created, deleted or updated. The cache entries should be deleted.
@@ -50,18 +52,20 @@ trait DiagroCacheDelete
             DeleteResourceCache::dispatchAfterResponse(self::resourceToCacheResourceKey($dbname, $table, $key));
         });
 
-        static::restored(function(Model $model) {
-            logger()->debug("restored called for " . get_class($model));
-            $dbname = $model->getConnection()->getDatabaseName();
-            $table = $model->getTable();
-            $key = $model->getKey();
-            if(is_array($key)) {
-                $key = implode('.', $key);
-            } elseif (! is_string($key)) {
-                $key = (string)$key;
-            }
-            DeleteResourceCache::dispatchAfterResponse(self::resourceToCacheResourceKey($dbname, $table, $key));
-        });
+        if(in_array(SoftDeletes::class, class_uses_recursive(static::class))) {
+            static::restored(function (Model $model) {
+                logger()->debug("restored called for " . get_class($model));
+                $dbname = $model->getConnection()->getDatabaseName();
+                $table = $model->getTable();
+                $key = $model->getKey();
+                if (is_array($key)) {
+                    $key = implode('.', $key);
+                } elseif (!is_string($key)) {
+                    $key = (string)$key;
+                }
+                DeleteResourceCache::dispatchAfterResponse(self::resourceToCacheResourceKey($dbname, $table, $key));
+            });
+        }
     }
 
 
