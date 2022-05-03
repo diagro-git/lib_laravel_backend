@@ -3,12 +3,9 @@ namespace Diagro\Backend\Http\Resources;
 
 use Diagro\API\API;
 use Diagro\Backend\API\Cache;
-use Diagro\Backend\Traits\CacheResourceHelpers;
 
 class CachedResource
 {
-
-    use CacheResourceHelpers;
 
 
     public static array $tags = [];
@@ -60,4 +57,9 @@ class CachedResource
         return self::$deletedResources;
     }
 
+
+    protected static function resourceToCacheResourceKey(string $dbname, string $table, string $key): string
+    {
+        return sprintf('%s.%s.%s', $dbname, $table, $key);
+    }
 }
