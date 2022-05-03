@@ -6,7 +6,7 @@ use Diagro\API\API;
 use Diagro\Backend\API\Cache;
 use Diagro\Backend\Http\Resources\CachedResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\Client\Response;
 
 /**
  * Checks if the X-DIAGRO-CACHE header is precense.
