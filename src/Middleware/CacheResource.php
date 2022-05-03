@@ -36,7 +36,7 @@ class CacheResource
         //is this a GET request and do we have a cache hit?
         $responseStatus = 200;
         $handler = API::getFailHandler();
-        API::withFail(function(Response $response) use($responseStatus) {
+        API::withFail(function(Response $response) use(&$responseStatus) {
             $responseStatus = $response->status();
         });
         $data = API::sync((new Cache)->fetch());
