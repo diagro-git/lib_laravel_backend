@@ -13,8 +13,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 trait DiagroCacheDelete
 {
 
-    use CacheResourceHelpers;
-
 
     protected static function bootDiagroCacheDelete()
     {
