@@ -13,7 +13,7 @@ class Cache
 
     public function fetch(): EndpointDefinition
     {
-        $endpoint = new EndpointDefinition($this->url('/'), RequestMethod::GET, $this->getToken(), $this->getAppId());
+        $endpoint = new EndpointDefinition($this->url('/cache'), RequestMethod::GET, $this->getToken(), $this->getAppId());
         $endpoint->setJsonKey(null);
         return $endpoint;
     }
@@ -21,7 +21,7 @@ class Cache
 
     public function store(array $data, array $usedResources): EndpointDefinition
     {
-        $endpoint = new EndpointDefinition($this->url('/'), RequestMethod::POST, $this->getToken(), $this->getAppId());
+        $endpoint = new EndpointDefinition($this->url('/cache'), RequestMethod::POST, $this->getToken(), $this->getAppId());
         $endpoint->setData([
             'data' => $data,
             'usedResources' => $usedResources
@@ -32,7 +32,7 @@ class Cache
 
     public function delete(array $resources): EndpointDefinition
     {
-        $endpoint = new EndpointDefinition($this->url('/'), RequestMethod::DELETE, $this->getToken(), $this->getAppId());
+        $endpoint = new EndpointDefinition($this->url('/cache'), RequestMethod::DELETE, $this->getToken(), $this->getAppId());
         $endpoint->setData([
             'resources' => $resources
         ]);
