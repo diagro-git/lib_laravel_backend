@@ -1,10 +1,9 @@
 <?php
 namespace Diagro\Backend\Traits;
 
-use Diagro\Backend\Jobs\DeleteResourceCache;
+use Diagro\Backend\Http\Resources\CachedResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Arr;
 
 /**
  * When a model is created, deleted or updated. The cache entries should be deleted.
@@ -22,7 +21,7 @@ trait DiagroCacheDelete
         static::created(function(Model $model) {
             $dbname = $model->getConnection()->getDatabaseName();
             $table = $model->getTable();
-            DeleteResourceCache::dispatch(self::resourceToCacheResourceKey($dbname, $table, '*'));
+            CachedResource::addDeletedResource($dbname, $table, '*');
         });
 
         static::updated(function(Model $model) {
@@ -34,7 +33,7 @@ trait DiagroCacheDelete
             } elseif (! is_string($key)) {
                 $key = (string)$key;
             }
-            DeleteResourceCache::dispatch(self::resourceToCacheResourceKey($dbname, $table, $key));
+            CachedResource::addDeletedResource($dbname, $table, $key);
         });
 
         static::deleted(function(Model $model) {
@@ -46,7 +45,7 @@ trait DiagroCacheDelete
             } elseif (! is_string($key)) {
                 $key = (string)$key;
             }
-            DeleteResourceCache::dispatch(self::resourceToCacheResourceKey($dbname, $table, $key));
+            CachedResource::addDeletedResource($dbname, $table, $key);
         });
 
         if(in_array(SoftDeletes::class, class_uses_recursive(static::class))) {
@@ -59,7 +58,7 @@ trait DiagroCacheDelete
                 } elseif (!is_string($key)) {
                     $key = (string)$key;
                 }
-                DeleteResourceCache::dispatch(self::resourceToCacheResourceKey($dbname, $table, $key));
+                CachedResource::addDeletedResource($dbname, $table, $key);
             });
         }
     }

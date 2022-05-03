@@ -17,6 +17,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/diagro-git/lib_laravel_event.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/diagro-git/lib_laravel_api.git"
         }
     ],
     "require": {
@@ -24,7 +28,7 @@
         "laravel/framework":"^9.0",
         "diagro/lib_laravel_token": "^1.0",
         "guzzlehttp/guzzle": "^7.4",
-        "diagro/lib_laravel_event": "^1.0"
+        "diagro/lib_laravel_api": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -43,7 +47,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "github-oauth": {
-            "github.com": "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"
+
         }
     },
     "minimum-stability": "stable"

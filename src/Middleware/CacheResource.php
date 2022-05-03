@@ -2,10 +2,10 @@
 namespace Diagro\Backend\Middleware;
 
 use Closure;
+use Diagro\API\API;
+use Diagro\Backend\API\Cache;
 use Diagro\Backend\Http\Resources\CachedResource;
-use Diagro\Backend\Jobs\CacheResources;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 /**
  * Checks if the X-DIAGRO-CACHE header is precense.
@@ -26,17 +26,26 @@ class CacheResource
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->hasHeader('x-diagro-cache')) {
-            $tags_key = explode(';', $request->header('x-diagro-cache'));
-            CachedResource::$key = $tags_key[0];
-            CachedResource::$tags = explode(' ', $tags_key[1]);
+        $hasCacheHeaders = $request->hasHeader('x-diagro-cache-key') && $request->hasHeader('x-diagro-cache-tags');
+        if($hasCacheHeaders) {
+            CachedResource::$key = $request->hasHeader('x-diagro-cache-key');
+            CachedResource::$tags = explode(' ', $request->hasHeader('x-diagro-cache-tags'));
+        }
+
+        //is this a GET request and do we have a cache hit?
+        $data = API::sync((new Cache)->fetch());
+        if($data != null) {
+            return response()->json($data);
         }
 
         $response = $next($request);
 
-        if($request->hasHeader('x-diagro-cache')) {
-            CachedResource::cacheResources();
+        if($hasCacheHeaders) {
+            CachedResource::cacheResponseAndResources($response->getData(true));
         }
+
+        //delete the cached resource if needed
+        CachedResource::deleteResources();
 
         return $response;
     }

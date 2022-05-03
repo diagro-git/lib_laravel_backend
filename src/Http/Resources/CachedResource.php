@@ -1,9 +1,9 @@
 <?php
 namespace Diagro\Backend\Http\Resources;
 
-use Diagro\Backend\Jobs\CacheResources;
+use Diagro\API\API;
+use Diagro\Backend\API\Cache;
 use Diagro\Backend\Traits\CacheResourceHelpers;
-use LogicException;
 
 class CachedResource
 {
@@ -17,32 +17,47 @@ class CachedResource
 
     private static array $usedResources = [];
 
+    private static array $deletedResources = [];
 
-    /**
-     * Start the job that links the used resources with tags and key.
-     *
-     * @return void
-     */
-    public static function cacheResources()
+
+    public static function cacheResponseAndResources(array $data)
     {
-        if(empty(self::$tags) || empty(self::$key)) {
-            throw new LogicException("To cache resources you have to give me some tags and a key!");
+        if(! empty(self::$tags) && ! empty(self::$key) && count(self::$usedResources) > 0) {
+            API::backendAsync((new Cache)->store($data, self::$usedResources), 'cache_resources');
         }
+    }
 
-        CacheResources::dispatch(self::$tags, self::$key, self::getUsedResources());
+    public static function deleteResources()
+    {
+        if(count(self::$deletedResources) > 0) {
+            API::backendAsync((new Cache)->delete(self::$deletedResources), 'deleted_resources');
+        }
     }
 
     public static function addUsedResource(string $dbname, string $tablename, string $key)
     {
         $resourceKey = self::resourceToCacheResourceKey($dbname, $tablename, $key);
         if(! in_array($resourceKey, self::$usedResources)) {
-            self::$usedResources[] = self::resourceToCacheResourceKey($dbname, $tablename, $key);
+            self::$usedResources[] = $resourceKey;
+        }
+    }
+
+    public static function addDeletedResource(string $dbname, string $tablename, string $key)
+    {
+        $resourceKey = self::resourceToCacheResourceKey($dbname, $tablename, $key);
+        if(! in_array($resourceKey, self::$deletedResources)) {
+            self::$deletedResources[] = $resourceKey;
         }
     }
 
     public static function getUsedResources(): array
     {
         return self::$usedResources;
+    }
+
+    public static function getDeletedResource(): array
+    {
+        return self::$deletedResources;
     }
 
 }
