@@ -38,7 +38,7 @@ class CacheResource
         API::withFail(function($response) use(&$responseStatus) {
             $responseStatus = $response->status();
         });
-        $data = API::sync((new Cache)->fetch());
+        $data = API::backend((new Cache)->fetch());
         API::withFail($handler);
 
         //if status == OK, return data
