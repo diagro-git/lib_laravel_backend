@@ -6,6 +6,7 @@ use Diagro\API\API;
 use Diagro\Backend\API\Cache;
 use Diagro\Backend\Http\Resources\CachedResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Checks if the X-DIAGRO-CACHE header is precense.
@@ -33,8 +34,16 @@ class CacheResource
         }
 
         //is this a GET request and do we have a cache hit?
+        $responseStatus = 200;
+        $handler = API::getFailHandler();
+        API::withFail(function(Response $response) use($responseStatus) {
+            $responseStatus = $response->status();
+        });
         $data = API::sync((new Cache)->fetch());
-        if($data != null) {
+        API::withFail($handler);
+
+        //if status == OK, return data
+        if($data != null && $responseStatus == 200) {
             return response()->json($data);
         }
 
