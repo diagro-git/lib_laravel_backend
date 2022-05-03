@@ -42,6 +42,6 @@ class Cache
 
     protected function url(string $path): string
     {
-        return env('DIAGRO_SERVICE_CACHE_URI', '');
+        return env('DIAGRO_SERVICE_CACHE_URI', '') . $path;
     }
 }
