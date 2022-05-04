@@ -104,9 +104,6 @@ class DiagroServiceProvider extends ServiceProvider
                 BackendTokenGenerator::class,
             ]);
         }
-
-        //routes
-        $this->loadRoutesFrom(__DIR__ . '/../routes/cache.php');
     }
 
 
