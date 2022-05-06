@@ -64,10 +64,10 @@ trait GroupedProperties
                 //compare and replace
                 foreach($collectorData as $collectorItem) {
                     foreach($resourceData as $key => $resourceItem) {
-                        if(
+                        if((isset($resourceItem[$property])) && (
                             ($compareIsString && $resourceItem[$property] == $collectorItem[$compare]) ||
                             ($compareIsClosure && $compare($resourceItem, $collectorItem) === true)
-                        ) {
+                            )) {
                             $resourceData[$key][$property] = $collectorItem;
                         }
                     }
