@@ -61,6 +61,19 @@ abstract class DiagroResource extends JsonResource
 
 
     /**
+     * Use this if the resource is part of another API resource.
+     *
+     * @param $resource
+     * @return mixed
+     */
+    public static function subResponse($resource): mixed
+    {
+        static::withoutWrapping();
+        return (new static($resource))->toResponse(request())->getData(true);
+    }
+
+
+    /**
      * The fields with values for the JSON response.
      * Replaces the toArray method, but is used in the toArray method.
      *
