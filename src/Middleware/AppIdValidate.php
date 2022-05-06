@@ -34,7 +34,7 @@ class AppIdValidate
             ])->get($url);
             if (!$response->ok()) {
                 $json = $response->json();
-                $msg = isset($json['message']) ? $json['message'] : $response->body();
+                $msg = $json['message'] ?? $response->body();
                 abort($response->status(), $msg);
             }
         }
