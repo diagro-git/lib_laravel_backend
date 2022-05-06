@@ -71,14 +71,12 @@ trait GroupedProperties
                         }
                     }
                 }
-
-                //set data back in response
-                if(! $isCollection && count($resourceData) == 1) {
-                    $resourceData = $resourceData[0];
-                }
             }
         }
 
+        if(! $isCollection && count($resourceData) == 1) {
+            $resourceData = $resourceData[0];
+        }
         return $resourceData;
     }
 
