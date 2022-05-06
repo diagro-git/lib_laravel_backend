@@ -36,10 +36,9 @@ trait GroupedProperties
     }
 
 
-    public function toArray($request)
+    public function withResponse($request, $response)
     {
-        $resourceData = parent::toArray($request);
-        if(Arr::isAssoc($resourceData)) $resourceData = [$resourceData];
+        $wrap = static::$wrap;
         $isCollection = str_ends_with(static::class, 'Collection');
         $grouped = self::$grouped;
 
@@ -56,6 +55,8 @@ trait GroupedProperties
                 if($isOneValue) $values = $values[0];
                 $collectorData = $definition->collector()($values);
                 if(Arr::isAssoc($collectorData)) $collectorData = [$collectorData];
+                $resourceData = $response->getData(true)[$wrap];
+                if(Arr::isAssoc($resourceData)) $resourceData = [$resourceData];
                 $compare = $definition->compare();
                 $compareIsString = is_string($compare);
                 $compareIsClosure = ! $compareIsString;
@@ -71,13 +72,14 @@ trait GroupedProperties
                         }
                     }
                 }
+
+                //set data back in response
+                if(! $isCollection && count($resourceData) == 1) {
+                    $resourceData = $resourceData[0];
+                }
+                $response->setData([$wrap => $resourceData]);
             }
         }
-
-        if(! $isCollection && count($resourceData) == 1) {
-            $resourceData = $resourceData[0];
-        }
-        return $resourceData;
     }
 
 }
