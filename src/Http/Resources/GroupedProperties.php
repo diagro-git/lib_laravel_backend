@@ -55,7 +55,8 @@ trait GroupedProperties
                 if($isOneValue) $values = $values[0];
                 $collectorData = $definition->collector()($values);
                 if(Arr::isAssoc($collectorData)) $collectorData = [$collectorData];
-                $resourceData = $response->getData(true)[$wrap];
+                $resourceData = $response->getData(true);
+                if($wrap != null) $resourceData = $resourceData[$wrap];
                 if(Arr::isAssoc($resourceData)) $resourceData = [$resourceData];
                 $compare = $definition->compare();
                 $compareIsString = is_string($compare);
@@ -77,7 +78,12 @@ trait GroupedProperties
                 if(! $isCollection && count($resourceData) == 1) {
                     $resourceData = $resourceData[0];
                 }
-                $response->setData([$wrap => $resourceData]);
+
+                if($wrap == null) {
+                    $response->setData($resourceData);
+                } else {
+                    $response->setData([$wrap => $resourceData]);
+                }
             }
         }
     }
