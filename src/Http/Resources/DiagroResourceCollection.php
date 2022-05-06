@@ -18,7 +18,7 @@ abstract class DiagroResourceCollection extends ResourceCollection
     }
 
 
-    final public function toArray($request)
+    public function toArray($request)
     {
         $data = $this->toData($request);
         if(empty($data)) {
