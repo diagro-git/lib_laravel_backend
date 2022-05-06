@@ -61,4 +61,17 @@ abstract class DiagroResourceCollection extends ResourceCollection
     }
 
 
+    /**
+     * Use this if the resource is part of another API resource.
+     *
+     * @param $resource
+     * @return mixed
+     */
+    public static function subResponse($resource): mixed
+    {
+        static::withoutWrapping();
+        return (new static($resource))->toResponse(request())->getData(true);
+    }
+
+
 }
