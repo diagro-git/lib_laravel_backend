@@ -20,14 +20,14 @@ class CachedResource
     public static function cacheResponseAndResources(array $data)
     {
         if(! empty(self::$tags) && ! empty(self::$key) && count(self::$usedResources) > 0) {
-            API::backendAsync((new Cache)->store($data, self::$usedResources), 'cache_resources');
+            API::backend((new Cache)->store($data, self::$usedResources));
         }
     }
 
     public static function deleteResources()
     {
         if(count(self::$deletedResources) > 0) {
-            API::backendAsync((new Cache)->delete(self::$deletedResources), 'deleted_resources');
+            API::backend((new Cache)->delete(self::$deletedResources));
         }
     }
 

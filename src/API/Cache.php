@@ -14,6 +14,10 @@ class Cache
     public function fetch(): EndpointDefinition
     {
         $endpoint = new EndpointDefinition($this->url('/cache'), RequestMethod::GET, $this->getToken(), $this->getAppId());
+        $endpoint->setHeaders([
+            'X-Diagro-Cache-Key' => request()->header('X-Diagro-Cache-Key'),
+            'X-Diagro-Cache-Tags' => request()->header('X-Diagro-Cache-Tags'),
+        ]);
         $endpoint->setJsonKey(null);
         return $endpoint;
     }
@@ -22,6 +26,10 @@ class Cache
     public function store(array $data, array $usedResources): EndpointDefinition
     {
         $endpoint = new EndpointDefinition($this->url('/cache'), RequestMethod::POST, $this->getToken(), $this->getAppId());
+        $endpoint->setHeaders([
+            'X-Diagro-Cache-Key' => request()->header('X-Diagro-Cache-Key'),
+            'X-Diagro-Cache-Tags' => request()->header('X-Diagro-Cache-Tags'),
+        ]);
         $endpoint->setData([
             'data' => $data,
             'usedResources' => $usedResources
