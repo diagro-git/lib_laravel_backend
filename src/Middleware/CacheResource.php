@@ -30,20 +30,20 @@ class CacheResource
         if($hasCacheHeaders) {
             CachedResource::$key = $request->hasHeader('x-diagro-cache-key');
             CachedResource::$tags = explode(' ', $request->hasHeader('x-diagro-cache-tags'));
-        }
 
-        //is this a GET request and do we have a cache hit?
-        $responseStatus = 200;
-        $handler = API::getFailHandler();
-        API::withFail(function($response) use(&$responseStatus) {
-            $responseStatus = $response->status();
-        });
-        $data = API::backend((new Cache)->fetch());
-        API::withFail($handler);
+            //is this a GET request and do we have a cache hit?
+            $responseStatus = 200;
+            $handler = API::getFailHandler();
+            API::withFail(function($response) use(&$responseStatus) {
+                $responseStatus = $response->status();
+            });
+            $data = API::backend((new Cache)->fetch());
+            API::withFail($handler);
 
-        //if status == OK, return data
-        if($data != null && $responseStatus == 200) {
-            return response()->json($data);
+            //if status == OK, return data
+            if($data != null && $responseStatus == 200) {
+                return response()->json($data);
+            }
         }
 
         $response = $next($request);
