@@ -68,8 +68,11 @@ abstract class DiagroResource extends JsonResource
      */
     public static function subResponse($resource): mixed
     {
+        $original_wrap = static::$wrap;
         static::withoutWrapping();
-        return (new static($resource))->toResponse(request())->getData(true);
+        $data = (new static($resource))->toResponse(request())->getData(true);
+        static::wrap($original_wrap);
+        return $data;
     }
 
 
