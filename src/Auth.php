@@ -43,7 +43,10 @@ class Auth
             'x-company-preffered' => $company_id,
         ];
         $url = config('diagro.service_auth_uri') . '/login';
-        $response = Http::withHeaders($headers)->post($url);
+        $response = Http::withHeaders($headers)->post($url, [
+            'email' => $email,
+            'password' => $password
+        ]);
         if($response->ok()) {
             $json = $response->json();
             if(isset($json['at']) && isset($json['aat'])) {
@@ -68,7 +71,7 @@ class Auth
             'x-company-preffered' => $company_id,
         ];
         $url = config('diagro.service_auth_uri') . '/login';
-        $response = Http::withHeaders($headers)->post($url, []);
+        $response = Http::withHeaders($headers)->post($url);
         if($response->ok()) {
             $json = $response->json();
             if(isset($json['aat'])) {
