@@ -24,11 +24,9 @@ class AuthorizedApplication
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->get('has-backend-token', false) === false) {
-            /** @var User $user */
-            $user = $request->user();
-            abort_unless(($user && $user->hasApplication(config('diagro.app_name'))), 403, 'Access denied to the application!');
-        }
+        /** @var User $user */
+        $user = $request->user();
+        abort_unless(($user && $user->hasApplication(config('diagro.app_name'))), 403, 'Access denied to the application!');
 
         return $next($request);
     }
