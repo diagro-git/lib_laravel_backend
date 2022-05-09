@@ -24,9 +24,9 @@ class AppIdValidate
      */
     public function handle(Request $request, Closure $next)
     {
-        abort_if(! $request->hasHeader('X-APP-ID'), 400, 'Missing header X-APP-ID');
-
         if($request->get('has-backend-token', false) === false) {
+            abort_if(! $request->hasHeader('X-APP-ID'), 400, 'Missing header X-APP-ID');
+
             $url = config('diagro.service_auth_uri') . '/validate/app';
             $response = Http::withHeaders([
                 'X-APP-ID' => $request->header('X-APP-ID'),

@@ -24,9 +24,9 @@ class TokenValidate
      */
     public function handle(Request $request, Closure $next)
     {
-        abort_if(($request->bearerToken() == null), 400, 'Authorization token missing!');
-
         if($request->get('has-backend-token', false) === false) {
+            abort_if(($request->bearerToken() == null), 400, 'Authorization token missing!');
+
             $url = config('diagro.service_auth_uri') . '/validate/token';
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $request->bearerToken(),
