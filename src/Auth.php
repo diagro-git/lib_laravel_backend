@@ -23,7 +23,8 @@ class Auth
         }
 
         try {
-            ApplicationAuthenticationToken::createFromToken($aat);
+            $aat = ApplicationAuthenticationToken::createFromToken($aat);
+            \Illuminate\Support\Facades\Auth::guard()->setUser($aat->user());
         } catch(\Exception $e) {
             $at = Cache::tags(['system', 'at'])->get($system_user);
             $aat = self::authSystemUserByToken($at, $system_user, $app_id, $company_id);
@@ -32,6 +33,9 @@ class Auth
         //set in request if success
         $request->headers->set('x-app-id', $app_id);
         $request->headers->set('Authorization', "Bearer $aat");
+        $request->setUserResolver(function($guard) {
+            return \Illuminate\Support\Facades\Auth::guard($guard)->user();
+        });
     }
 
 

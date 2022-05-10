@@ -10,10 +10,6 @@ return [
         'diagro' => [
             'driver' => 'diagro-aat',
             'provider' => 'diagro-token'
-        ],
-        'intern' => [
-            'driver' => 'diagro-aat',
-            'provider' => 'diagro-token'
         ]
     ],
 

@@ -68,7 +68,7 @@ class DiagroServiceProvider extends ServiceProvider
         //configuration
         $this->publishes([
             __DIR__ . '/../configs/diagro.php' => config_path('diagro.php'),
-            __DIR__ . '/../configs/auth.php' => config_path('auth.php'),
+            __DIR__ . '/../configs/auth.php' => config_path('auth-new.php'),
         ]);
 
         //middleware
