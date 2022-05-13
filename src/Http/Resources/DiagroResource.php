@@ -72,6 +72,11 @@ abstract class DiagroResource extends JsonResource
         static::withoutWrapping();
         $data = (new static($resource))->toResponse(request())->getData(true);
         static::wrap($original_wrap);
+        //if main response is a collection, then the next value is added to the grouped array.
+        //this causes a bug and thus after the sub response, the array needs to be reset.
+        if(property_exists(static::class, 'grouped')) {
+            static::$grouped = [];
+        }
         return $data;
     }
 
