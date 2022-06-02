@@ -24,12 +24,14 @@ trait GroupedProperties
 
     protected function group(string $property, $value)
     {
-        if(isset(self::$grouped[$property])) {
-            if(! in_array($value, self::$grouped[$property])) {
-                self::$grouped[$property][] = $value;
+        if($value != null) {
+            if (isset(self::$grouped[$property])) {
+                if (!in_array($value, self::$grouped[$property])) {
+                    self::$grouped[$property][] = $value;
+                }
+            } else {
+                self::$grouped[$property] = [$value];
             }
-        } else {
-            self::$grouped[$property] = [$value];
         }
 
         return $value;
