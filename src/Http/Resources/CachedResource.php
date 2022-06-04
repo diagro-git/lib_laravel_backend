@@ -3,6 +3,7 @@ namespace Diagro\Backend\Http\Resources;
 
 use Diagro\API\API;
 use Diagro\Backend\API\Cache;
+use Illuminate\Database\Eloquent\Model;
 
 class CachedResource
 {
@@ -45,6 +46,11 @@ class CachedResource
         if(! in_array($resourceKey, self::$deletedResources)) {
             self::$deletedResources[] = $resourceKey;
         }
+    }
+
+    public static function addDeletedModel(Model $model)
+    {
+        self::addDeletedResource($model->getConnection()->getDatabaseName(), $model->getTable(), (string) $model->getKey());
     }
 
     public static function getUsedResources(): array
