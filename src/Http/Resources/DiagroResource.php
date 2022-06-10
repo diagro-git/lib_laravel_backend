@@ -49,7 +49,7 @@ abstract class DiagroResource extends JsonResource
     {
         $class = str_replace('Resource', 'Collection', static::class);
         if(class_exists($class)) {
-            $collection = new $class($resource);
+            $collection = new $class(...func_get_args());
             if($collection instanceof ResourceCollection) {
                 return $collection;
             }
