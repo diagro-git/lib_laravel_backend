@@ -8,6 +8,7 @@ use Diagro\Backend\Middleware\AuthorizedApplication;
 use Diagro\Backend\Middleware\BackendAppIdValidate;
 use Diagro\Backend\Middleware\CacheResource;
 use Diagro\Backend\Middleware\Localization;
+use Diagro\Backend\Middleware\Metric;
 use Diagro\Backend\Middleware\TokenValidate;
 use Diagro\Token\ApplicationAuthenticationToken;
 use Diagro\Token\Auth\TokenProvider;
@@ -82,9 +83,11 @@ class DiagroServiceProvider extends ServiceProvider
         $router->pushMiddlewareToGroup('api', AuthorizedApplication::class);
         $router->pushMiddlewareToGroup('api', CacheResource::class);
         $router->pushMiddlewareToGroup('api', Localization::class);
+        $router->pushMiddlewareToGroup('api', Metric::class);
         $kernel->prependToMiddlewarePriority(TokenValidate::class);
         $kernel->prependToMiddlewarePriority(AppIdValidate::class);
         $kernel->prependToMiddlewarePriority(BackendAppIdValidate::class);
+        $kernel->prependToMiddlewarePriority(Metric::class);
 
         //drop invalid keys
         Validator::excludeUnvalidatedArrayKeys();
