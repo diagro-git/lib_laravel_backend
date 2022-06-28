@@ -101,7 +101,6 @@ class DiagroServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 BackendTokenGenerator::class,
-                DiagroRights::class,
             ]);
         }
     }
