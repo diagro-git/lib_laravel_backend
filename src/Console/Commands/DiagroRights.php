@@ -5,6 +5,7 @@ use Diagro\API\API;
 use Diagro\API\EndpointDefinition;
 use Diagro\API\RequestMethod;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 
 class DiagroRights extends Command
 {
@@ -34,6 +35,7 @@ class DiagroRights extends Command
 
         $definition = new EndpointDefinition($url, RequestMethod::PUT, '', $config['app_id']);
         $definition->setJsonKey(null)->noCache();
+        $definition->setData(Arr::only($config, ['app_id', 'rights', 'roles']));
 
         API::withFail(fn($response) => $this->error($response->body()));
         API::backend($definition);
