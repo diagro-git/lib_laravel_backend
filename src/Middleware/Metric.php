@@ -24,6 +24,7 @@ class Metric
      */
     public function handle(Request $request, Closure $next)
     {
+        logger()->debug("metric middleware called");
         $user = $request->user();
         $metric = new MetricService($request, $user?->id(), $user?->company()->id(), $request->header('x-parent-metric'));
 
