@@ -29,6 +29,7 @@ class Metric
         $metric = new MetricService($request, $user?->id(), $user?->company()->id(), $request->header('x-parent-metric'));
 
         $response = $next($request);
+        logger()->debug("metric middleware after called");
 
         $metric->stop($response);
         $url = config('diagro.service_metric_uri');
