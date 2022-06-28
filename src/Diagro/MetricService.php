@@ -27,6 +27,7 @@ class MetricService
 
     public function __construct()
     {
+        logger()->debug("caled one");
         $this->started_at = hrtime(true);
         $this->request_id = Str::uuid()->toString();
 
