@@ -2,6 +2,7 @@
 namespace Diagro\Backend\Middleware;
 
 use Closure;
+use Diagro\API\API;
 use Diagro\Backend\Diagro\MetricService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -24,12 +25,13 @@ class Metric
      */
     public function handle(Request $request, Closure $next)
     {
-        logger()->debug("metric middleware called");
         $user = $request->user();
         $metric = new MetricService($request, $user?->id(), $user?->company()->id(), $request->header('x-parent-metric'));
 
+        //set request id for API requests
+        API::$metricRequestId = $metric->request_id;
+
         $response = $next($request);
-        logger()->debug("metric middleware after called");
 
         $metric->stop($response);
         $url = config('diagro.service_metric_uri');

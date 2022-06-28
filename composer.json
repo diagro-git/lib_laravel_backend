@@ -2,7 +2,7 @@
     "name": "diagro/lib_laravel_backend",
     "description": "Library for backends written in Laravel",
     "type": "library",
-    "version": "2.4.7",
+    "version": "2.4.8",
     "authors": [
         {
             "name": "Stijn Leenknegt",
@@ -43,7 +43,7 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "github-oauth": {
-            "github.com": "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"
+
         }
     },
     "minimum-stability": "stable"
