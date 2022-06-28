@@ -41,6 +41,7 @@ class DiagroServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(MetricService::class, function() {
+            logger()->debug("-------------------------");
             logger()->debug("metric service constructor");
             return new MetricService();
         });
@@ -99,6 +100,7 @@ class DiagroServiceProvider extends ServiceProvider
             logger()->debug("called after resolving");
         });
         Event::listen(RequestHandled::class, function(RequestHandled $event) {
+            logger()->debug("event RH before stop");
             app(MetricService::class)->stop($event->request, $event->response);
             app(MetricService::class)->send();
             logger()->debug("event RequestHandled");
