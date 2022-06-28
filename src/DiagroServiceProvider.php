@@ -40,11 +40,7 @@ class DiagroServiceProvider extends ServiceProvider
             return ApplicationAuthenticationToken::createFromToken($token);
         });
 
-        $this->app->singleton(MetricService::class, function() {
-            logger()->debug("------------");
-            logger()->debug("metric service constructor");
-            return new MetricService();
-        });
+        $this->app->singleton(MetricService::class);
     }
 
 
@@ -100,10 +96,8 @@ class DiagroServiceProvider extends ServiceProvider
             app(MetricService::class);
         });
         Event::listen(RequestHandled::class, function(RequestHandled $event) {
-            logger()->debug("before!");
             app(MetricService::class)->stop($event->request, $event->response);
             app(MetricService::class)->send();
-            logger()->debug("event RequestHandled");
         });
 
         //drop invalid keys
