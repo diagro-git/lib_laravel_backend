@@ -1,7 +1,9 @@
 <?php
 namespace Diagro\Backend\Diagro;
 
+use Diagro\API\API;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
 
@@ -17,21 +19,29 @@ class MetricService
 
     public ?Response $response = null;
 
+    public ?Request $request = null;
+    public ?int $user_id = null;
+        public ?int $company_id = null;
+        public ?string $parent_request_id = null;
 
-    public function __construct(
-        public Request $request,
-        public ?int $user_id = null,
-        public ?int $company_id = null,
-        public ?string $parent_request_id = null,
-    )
+
+    public function __construct()
     {
         $this->started_at = hrtime(true);
         $this->request_id = Str::uuid()->toString();
+
+        API::$metricRequestId = $this->request_id;
     }
 
-    public function stop(Response $response)
+    public function stop(Request $request, Response $response)
     {
+        $this->request = $request;
         $this->response = $response;
+
+        $this->user_id = $request->user()?->id();
+        $this->company_id = $request->user()?->company()->id();
+        $this->parent_request_id = $request->header('x-parent-metric');
+
         $this->ended_at = hrtime(true);
     }
 
@@ -60,6 +70,14 @@ class MetricService
                 'last_100_bytes' => substr($this->response->getContent(), -100),
             ]
         ];
+    }
+
+    public function send()
+    {
+        $url = config('diagro.service_metric_uri');
+        if($url) {
+            Http::post($url, $this->toArray());
+        }
     }
 
 

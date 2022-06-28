@@ -3,6 +3,7 @@ namespace Diagro\Backend;
 
 use Diagro\Backend\Console\Commands\BackendTokenGenerator;
 use Diagro\Backend\Console\Commands\DiagroRights;
+use Diagro\Backend\Diagro\MetricService;
 use Diagro\Backend\Middleware\AppIdValidate;
 use Diagro\Backend\Middleware\AuthorizedApplication;
 use Diagro\Backend\Middleware\BackendAppIdValidate;
@@ -13,11 +14,13 @@ use Diagro\Backend\Middleware\TokenValidate;
 use Diagro\Token\ApplicationAuthenticationToken;
 use Diagro\Token\Auth\TokenProvider;
 use Exception;
+use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Foundation\Http\Kernel;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -37,6 +40,8 @@ class DiagroServiceProvider extends ServiceProvider
             $token = request()->bearerToken();
             return ApplicationAuthenticationToken::createFromToken($token);
         });
+
+        $this->app->singleton(MetricService::class, MetricService::class);
     }
 
 
@@ -83,11 +88,19 @@ class DiagroServiceProvider extends ServiceProvider
         $router->pushMiddlewareToGroup('api', AuthorizedApplication::class);
         $router->pushMiddlewareToGroup('api', CacheResource::class);
         $router->pushMiddlewareToGroup('api', Localization::class);
-        $router->pushMiddlewareToGroup('api', Metric::class);
         $kernel->prependToMiddlewarePriority(TokenValidate::class);
         $kernel->prependToMiddlewarePriority(AppIdValidate::class);
         $kernel->prependToMiddlewarePriority(BackendAppIdValidate::class);
-        $kernel->prependToMiddlewarePriority(Metric::class);
+
+        $this->app->afterResolving(Request::class, function() {
+            app(MetricService::class);
+            logger()->debug("called after resolving");
+        });
+        Event::listen(RequestHandled::class, function(RequestHandled $event) {
+            app(MetricService::class)->stop($event->request, $event->response);
+            app(MetricService::class)->send();
+            logger()->debug("event RequestHandled");
+        });
 
         //drop invalid keys
         Validator::excludeUnvalidatedArrayKeys();
