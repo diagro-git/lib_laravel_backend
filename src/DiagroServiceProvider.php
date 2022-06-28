@@ -95,10 +95,7 @@ class DiagroServiceProvider extends ServiceProvider
         $kernel->prependToMiddlewarePriority(AppIdValidate::class);
         $kernel->prependToMiddlewarePriority(BackendAppIdValidate::class);
 
-        $this->app->afterResolving('request', function() {
-            app(MetricService::class);
-            logger()->debug("called after resolving");
-        });
+        app(MetricService::class);
         Event::listen(RequestHandled::class, function(RequestHandled $event) {
             logger()->debug("before!");
             app(MetricService::class)->stop($event->request, $event->response);
