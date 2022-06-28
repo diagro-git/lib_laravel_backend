@@ -27,6 +27,8 @@ class CacheResource
     public function handle(Request $request, Closure $next)
     {
         $hasCacheHeaders = $request->hasHeader('x-diagro-cache-key') && $request->hasHeader('x-diagro-cache-tags');
+        $shouldCacheResponse = $hasCacheHeaders;
+
         if($hasCacheHeaders) {
             CachedResource::$key = $request->hasHeader('x-diagro-cache-key');
             CachedResource::$tags = explode(' ', $request->hasHeader('x-diagro-cache-tags'));
@@ -42,13 +44,16 @@ class CacheResource
 
             //if status == OK, return data
             if($data != null && $responseStatus == 200) {
-                return response()->json($data);
+                $shouldCacheResponse = false;
+                $response = response()->json($data);
+            } else {
+                $response = $next($request);
             }
+        } else {
+            $response = $next($request);
         }
 
-        $response = $next($request);
-
-        if($hasCacheHeaders) {
+        if($shouldCacheResponse) {
             CachedResource::cacheResponseAndResources($response->getData(true));
         }
 
