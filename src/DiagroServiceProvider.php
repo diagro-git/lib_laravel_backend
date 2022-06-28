@@ -9,7 +9,6 @@ use Diagro\Backend\Middleware\AuthorizedApplication;
 use Diagro\Backend\Middleware\BackendAppIdValidate;
 use Diagro\Backend\Middleware\CacheResource;
 use Diagro\Backend\Middleware\Localization;
-use Diagro\Backend\Middleware\Metric;
 use Diagro\Backend\Middleware\TokenValidate;
 use Diagro\Token\ApplicationAuthenticationToken;
 use Diagro\Token\Auth\TokenProvider;
@@ -41,7 +40,10 @@ class DiagroServiceProvider extends ServiceProvider
             return ApplicationAuthenticationToken::createFromToken($token);
         });
 
-        $this->app->singleton(MetricService::class, MetricService::class);
+        $this->app->singleton(MetricService::class, function() {
+            logger()->debug("metric service constructor");
+            return new MetricService();
+        });
     }
 
 
@@ -92,7 +94,7 @@ class DiagroServiceProvider extends ServiceProvider
         $kernel->prependToMiddlewarePriority(AppIdValidate::class);
         $kernel->prependToMiddlewarePriority(BackendAppIdValidate::class);
 
-        $this->app->afterResolving(Request::class, function() {
+        $this->app->afterResolving('request', function() {
             app(MetricService::class);
             logger()->debug("called after resolving");
         });
