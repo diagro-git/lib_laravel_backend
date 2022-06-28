@@ -26,10 +26,12 @@ class CacheResource
      */
     public function handle(Request $request, Closure $next)
     {
+        logger()->debug("cache middleware called");
         $hasCacheHeaders = $request->hasHeader('x-diagro-cache-key') && $request->hasHeader('x-diagro-cache-tags');
         $shouldCacheResponse = $hasCacheHeaders;
 
         if($hasCacheHeaders) {
+            logger()->debug("cache middleware called 2");
             CachedResource::$key = $request->hasHeader('x-diagro-cache-key');
             CachedResource::$tags = explode(' ', $request->hasHeader('x-diagro-cache-tags'));
 
