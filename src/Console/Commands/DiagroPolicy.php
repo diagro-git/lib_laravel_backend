@@ -2,7 +2,9 @@
 namespace Diagro\Backend\Console\Commands;
 
 use Illuminate\Foundation\Console\PolicyMakeCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 
+#[AsCommand(name: 'diagro:policy')]
 class DiagroPolicy extends PolicyMakeCommand
 {
     /**
@@ -10,7 +12,7 @@ class DiagroPolicy extends PolicyMakeCommand
      *
      * @var string
      */
-    protected $signature = 'diagro:policy';
+    protected $name = 'diagro:policy';
 
     /**
      * The console command description.
