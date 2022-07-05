@@ -47,7 +47,7 @@ class DiagroServiceProvider extends ServiceProvider
 
         $this->app->singleton(MetricService::class);
 
-        $this->app->singleton('migration.creator', function ($app) {
+        $this->app->singleton('diagro.creator', function ($app) {
             return new MigrationCreator($app['files'], __DIR__ . '/../stubs');
         });
     }
