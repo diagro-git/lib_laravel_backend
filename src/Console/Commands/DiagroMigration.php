@@ -2,13 +2,8 @@
 namespace Diagro\Backend\Console\Commands;
 
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
-use Illuminate\Database\Migrations\MigrationCreator;
-use Illuminate\Foundation\Console\ModelMakeCommand;
-use Illuminate\Support\Composer;
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 
-#[AsCommand(name: 'diagro:migration')]
 class DiagroMigration extends MigrateMakeCommand
 {
     /**
