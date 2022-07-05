@@ -2,7 +2,6 @@
 namespace Diagro\Backend\Console\Commands;
 
 use Illuminate\Database\Console\Migrations\MigrateMakeCommand;
-use Symfony\Component\Console\Attribute\AsCommand;
 
 class DiagroMigration extends MigrateMakeCommand
 {
@@ -11,7 +10,7 @@ class DiagroMigration extends MigrateMakeCommand
      *
      * @var string
      */
-    protected $name = 'diagro:migration';
+    protected $signature = 'diagro:migration';
 
     /**
      * The console command description.
