@@ -1,0 +1,19 @@
+<?php
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Diagro\Backend\Traits\DiagroCacheDelete;
+use Illuminate\Database\Eloquent\Model;
+
+class {{ class }} extends Model
+{
+    use SoftDeletes, DiagroCacheDelete;
+
+    protected $fillable = [
+        //...
+    ];
+
+    protected $casts = [
+        //...
+    ];
+}

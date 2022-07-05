@@ -1,0 +1,40 @@
+<?php
+namespace {{ namespace }};
+
+use Diagro\Backend\Http\Resources\DiagroResourceCollection;
+use Diagro\Backend\Http\Resources\GroupedDefinition;
+use Diagro\Backend\Http\Resources\GroupedProperties;
+
+class {{ class }} extends DiagroResourceCollection
+{
+    use GroupedProperties;
+
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toData($request): array
+    {
+        return [];
+    }
+
+    protected function example(): GroupedDefinition
+    {
+        return new class extends GroupedDefinition {
+
+            public function collector(): closure
+            {
+                return fn($example_ids) => //...perform API call with $example_ids...
+            }
+
+            public function compare(): string|closure
+            {
+                return 'id'; //the name of the collector field to compare against
+            }
+
+        };
+    }
+}
