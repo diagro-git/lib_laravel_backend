@@ -17,6 +17,7 @@ use Diagro\Backend\Middleware\TokenValidate;
 use Diagro\Token\ApplicationAuthenticationToken;
 use Diagro\Token\Auth\TokenProvider;
 use Exception;
+use Illuminate\Database\Migrations\MigrationCreator;
 use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Foundation\Http\Kernel;
 use Illuminate\Http\Request;
@@ -45,6 +46,10 @@ class DiagroServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(MetricService::class);
+
+        $this->app->singleton('migration.creator', function ($app) {
+            return new MigrationCreator($app['files'], __DIR__ . '/../stubs');
+        });
     }
 
 

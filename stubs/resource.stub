@@ -4,6 +4,7 @@ namespace {{ namespace }};
 use Diagro\Backend\Http\Resources\DiagroResource;
 use Diagro\Backend\Http\Resources\GroupedDefinition;
 use Diagro\Backend\Http\Resources\GroupedProperties;
+use closure;
 
 class {{ class }} extends DiagroResource
 {
@@ -31,7 +32,7 @@ class {{ class }} extends DiagroResource
 
             public function collector(): closure
             {
-                return fn($example_id) => //...perform API call with $example_id...
+                return fn($example_id) => $example_id; //...perform API call with $example_id...
             }
 
             public function compare(): string|closure
