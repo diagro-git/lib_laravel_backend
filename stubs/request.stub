@@ -1,0 +1,15 @@
+<?php
+namespace {{ namespace }};
+
+use Diagro\Backend\Http\ActionMethodRulesRequest;
+
+class {{ class }} extends ActionMethodRulesRequest
+{
+    /**
+     * @inheritDoc
+     */
+    protected function defaultRules(): array
+    {
+        return [];
+    }
+}
