@@ -2,6 +2,7 @@
 namespace Diagro\Backend;
 
 use Diagro\Backend\Console\Commands\BackendTokenGenerator;
+use Diagro\Backend\Console\Commands\DiagroMigration;
 use Diagro\Backend\Console\Commands\DiagroModel;
 use Diagro\Backend\Console\Commands\DiagroPolicy;
 use Diagro\Backend\Console\Commands\DiagroRequest;
@@ -133,6 +134,7 @@ class DiagroServiceProvider extends ServiceProvider
                 DiagroRequest::class,
                 DiagroResource::class,
                 DiagroModel::class,
+                DiagroMigration::class,
             ]);
         }
     }
