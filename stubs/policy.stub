@@ -1,0 +1,10 @@
+<?php
+namespace {{ namespace }};
+
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Diagro\Backend\Policy\Diagro;
+
+class {{ class }} extends Diagro
+{
+    use HandlesAuthorization;
+}

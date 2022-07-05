@@ -2,6 +2,7 @@
 namespace Diagro\Backend;
 
 use Diagro\Backend\Console\Commands\BackendTokenGenerator;
+use Diagro\Backend\Console\Commands\DiagroPolicy;
 use Diagro\Backend\Console\Commands\DiagroRights;
 use Diagro\Backend\Diagro\MetricService;
 use Diagro\Backend\Middleware\AppIdValidate;
@@ -120,6 +121,7 @@ class DiagroServiceProvider extends ServiceProvider
             $this->commands([
                 BackendTokenGenerator::class,
                 DiagroRights::class,
+                DiagroPolicy::class,
             ]);
         }
     }
