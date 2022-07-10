@@ -86,7 +86,7 @@ class Auth
 
         //maybe AT is revoked, try again with login password
         $password = config('diagro.system.users')[$email];
-        self::authSystemUserByCredentials($email, $password, $app_id, $company_id);
+        self::authSystemUserByCredentials($email, decrypt($password), $app_id, $company_id);
     }
 
 
