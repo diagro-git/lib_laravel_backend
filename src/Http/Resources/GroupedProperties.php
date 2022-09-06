@@ -5,16 +5,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
- * Als je een property hebt in je API Resource dat een API fetch moet doen naar de backend,
- * dan kan je deze best groeperen.
- *
- * Na het maken van de API resource, worden de gegroepeerde waarde (meestal is dat de ID van een model) meegegeven
- * in een functie met de groepsnaam. Bv: $this->group('company', $company_id), gaan alle company_id's aan de methode company() gegeven worden.
- *
- * function company();
- *
- * Dan kan je een request doen, met het resultaat dan de bestaande data key vervangen door het API resultaat.
- * Dit kan resulteren in één API request ipv 100 API requests als je API resource bv 100 entries heeft.
+ * This trait is used to group ID's which contains more information in another backend.
  */
 trait GroupedProperties
 {
