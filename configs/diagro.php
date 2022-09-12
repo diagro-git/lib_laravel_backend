@@ -7,7 +7,9 @@ return [
 
     'service_auth_uri' => env('DIAGRO_SERVICE_AUTH_URI'),
 
-    'service_metric_uri' => env('DIAGRO_SERVICE_METRIC_URI', null),
+    'service_metric_uri' => env('DIAGRO_SERVICE_METRIC_URI'),
+
+    'service_jwks_uri' => env('DIAGRO_SERVICE_JWKS_URI'),
 
     /*'system' => [
         'frontend_application' => 8, //change this to the app id that is a system frontend application
