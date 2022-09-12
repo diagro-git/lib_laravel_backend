@@ -45,6 +45,10 @@ class BackendTokenGenerator extends Command
             return 0;
         }
 
+        //only auth.domain.ext are allowed to generate tokens.
+        //little hack for generating backend tokens
+        config()->set('app.url', 'https://auth.' . explode('.', config('app.url'), 2)[1]);
+
         $bat = new BackendApplicationToken($app_id, $app_name);
         $bat = $bat->token();
         $contents = file_get_contents($path);

@@ -12,7 +12,7 @@ return [
     'service_jwks_uri' => env('DIAGRO_SERVICE_JWKS_URI'),
 
     /*'system' => [
-        'frontend_application' => 8, //change this to the app id that is a system frontend application
+        'frontend_application' => env('DIAGRO_SYSTEM_FRONTEND_APPLICATION_ID'), //change this to the app id that is a system frontend application
         'default_user' => 'system@diagro.farm',
 
         'users' => [
