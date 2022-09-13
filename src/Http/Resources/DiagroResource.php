@@ -4,6 +4,7 @@ namespace Diagro\Backend\Http\Resources;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\MissingValue;
 
 
 abstract class DiagroResource extends JsonResource
@@ -89,6 +90,111 @@ abstract class DiagroResource extends JsonResource
      * @return array
      */
     abstract function toData($request): array;
+
+
+    /**
+     * Only add field when access is allowed for given permission(s).
+     *
+     * @param string|array $abillities
+     * @param string|array $permissions
+     * @param $value
+     * @return MissingValue|mixed
+     */
+    public function whenCan(string|array $abillities, string|array $permissions, $value): mixed
+    {
+        return $this->when(auth()->user()->can($abillities, $permissions), $value);
+    }
+
+
+    /**
+     * Only add field when read access is allowed for given permission(s).
+     *
+     * @param string|array $permissions
+     * @param $value
+     * @return mixed
+     */
+    public function whenCanRead(string|array $permissions, $value): mixed
+    {
+        return $this->whenCan('read', $permissions, $value);
+    }
+
+
+    /**
+     * Only add field when create access is allowed for given permission(s).
+     *
+     * @param string|array $permissions
+     * @param $value
+     * @return mixed
+     */
+    public function whenCanCreate(string|array $permissions, $value): mixed
+    {
+        return $this->whenCan('create', $permissions, $value);
+    }
+
+
+    /**
+     * Only add field when update access is allowed for given permission(s).
+     *
+     * @param string|array $permissions
+     * @param $value
+     * @return mixed
+     */
+    public function whenCanUpdate(string|array $permissions, $value): mixed
+    {
+        return $this->whenCan('update', $permissions, $value);
+    }
+
+
+    /**
+     * Only add field when delete access is allowed for given permission(s).
+     *
+     * @param string|array $permissions
+     * @param $value
+     * @return mixed
+     */
+    public function whenCanDelete(string|array $permissions, $value): mixed
+    {
+        return $this->whenCan('delete', $permissions, $value);
+    }
+
+
+    /**
+     * Only add field when CRUD access is allowed for given permission(s).
+     *
+     * @param string|array $permissions
+     * @param $value
+     * @return mixed
+     */
+    public function whenCanCRUD(string|array $permissions, $value): mixed
+    {
+        return $this->whenCan(['c','r','u','d'], $permissions, $value);
+    }
+
+
+    /**
+     * Only add field when publish access is allowed for given permission(s).
+     *
+     * @param string|array $permissions
+     * @param $value
+     * @return mixed
+     */
+    public function whenCanPublish(string|array $permissions, $value): mixed
+    {
+        return $this->whenCan('publish', $permissions, $value);
+    }
+
+
+    /**
+     * Only add field when export access is allowed for given permission(s).
+     *
+     * @param string|array $permissions
+     * @param $value
+     * @return mixed
+     */
+    public function whenCanExport(string|array $permissions, $value): mixed
+    {
+        return $this->whenCan('export', $permissions, $value);
+    }
 
 
 }
