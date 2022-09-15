@@ -2,7 +2,7 @@
     "name": "diagro/lib_laravel_backend",
     "description": "Library for backends written in Laravel",
     "type": "library",
-    "version": "2.10.1",
+    "version": "2.10.2",
     "license": "Beerware",
     "authors": [
         {
