@@ -20,9 +20,12 @@ class MetricService
     public ?Response $response = null;
 
     public ?Request $request = null;
+    
     public ?int $user_id = null;
-        public ?int $company_id = null;
-        public ?string $parent_request_id = null;
+    
+    public ?int $company_id = null;
+    
+    public ?string $parent_request_id = null;
 
 
     public function __construct()

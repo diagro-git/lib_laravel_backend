@@ -60,7 +60,7 @@ class DiagroServiceProvider extends ServiceProvider
     public function boot(Kernel $kernel)
     {
         //add Diagro AAT driver
-        auth()->viaRequest('diagro-aat', function(Request $request) {
+        Auth::viaRequest('diagro-aat', function(Request $request) {
             $token = $request->bearerToken();
             if($token != null) {
                 try {
@@ -118,6 +118,7 @@ class DiagroServiceProvider extends ServiceProvider
         //so you can use ->can('read', 'model) on the route
         Route::macro('can', function($abbility, ... $params) {
             $params = implode('|', $params);
+            /** @var Route $this */
             $this->middleware('can:' . $abbility . ',' . $params);
             return $this;
         });
